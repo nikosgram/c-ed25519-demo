@@ -26,7 +26,7 @@ static const uint64_t K[80] = {0x428a2f98d728ae22, 0x7137449123ef65cd, 0xb5c0fbc
 
 #define UI64_MAX 0xFFFFFFFFFFFFFFFF
 
-static int compressSha512Message(uint64_t *state, const unsigned char *buf) {
+static int compressMessage(uint64_t *state, const unsigned char *buf) {
     uint64_t s[8], w[80], t0, t1;
     int i;
 
@@ -151,7 +151,7 @@ static int compressSha512Message(uint64_t *state, const unsigned char *buf) {
     return 0;
 }
 
-int sha512(const unsigned char *message, long messageLen, unsigned char *hash) {
+int sha512(const unsigned char *message, size_t messageLen, unsigned char *hash) {
     if (message == 0 || hash == 0) {
         return 1;
     }
@@ -159,14 +159,14 @@ int sha512(const unsigned char *message, long messageLen, unsigned char *hash) {
     uint64_t length = 0, state[8] = {0x6a09e667f3bcc908, 0xbb67ae8584caa73b, 0x3c6ef372fe94f82b, 0xa54ff53a5f1d36f1,
                                      0x510e527fade682d1, 0x9b05688c2b3e6c1f, 0x1f83d9abfb41bd6b, 0x5be0cd19137e2179};
 
-    long currentLen = 0, n, i;
+    size_t currentLen = 0, n, i;
     unsigned char buf[128];
 
     int result;
 
     while (messageLen > 0) {
         if (currentLen == 0 && messageLen >= 128) {
-            if ((result = compressSha512Message(state, message)) != 0) {
+            if ((result = compressMessage(state, message)) != 0) {
                 return result;
             }
 
@@ -174,7 +174,7 @@ int sha512(const unsigned char *message, long messageLen, unsigned char *hash) {
             message += 128;
             messageLen -= 128;
         } else {
-            long y = 128 - currentLen;
+            size_t y = 128 - currentLen;
 
             n = messageLen < y ? messageLen : y;
 
@@ -187,7 +187,7 @@ int sha512(const unsigned char *message, long messageLen, unsigned char *hash) {
             messageLen -= n;
 
             if (currentLen == 128) {
-                if ((result = compressSha512Message(state, buf)) != 0) {
+                if ((result = compressMessage(state, buf)) != 0) {
                     return result;
                 }
 
@@ -210,7 +210,7 @@ int sha512(const unsigned char *message, long messageLen, unsigned char *hash) {
             buf[currentLen++] = (unsigned char) 0;
         }
 
-        compressSha512Message(state, buf);
+        compressMessage(state, buf);
         currentLen = 0;
     }
 
@@ -229,7 +229,7 @@ int sha512(const unsigned char *message, long messageLen, unsigned char *hash) {
     a[6] = (unsigned char) (length >> 8) & 255;
     a[7] = (unsigned char) length & 255;
 
-    compressSha512Message(state, buf);
+    compressMessage(state, buf);
 
     for (i = 0; i < 8; i++) {
         unsigned char *b = hash + (8 * i);
