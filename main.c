@@ -291,7 +291,7 @@ int main() {
         }
     }
 
-    printf("[y] it's identical!\n");
+    printf("[y] identical!\n");
 
     result = sha512(message2, 32, returnedMessage3);
 
@@ -307,7 +307,7 @@ int main() {
         }
     }
 
-    printf("[x] it's identical!\n");
+    printf("[x] identical!\n");
 
     return -1;
 }
