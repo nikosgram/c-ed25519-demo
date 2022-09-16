@@ -1,52 +1,64 @@
-# Prerequisites
-*.d
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
 
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
+.idea/**/aws.xml
 
-# Linker output
-*.ilk
-*.map
-*.exp
+.idea/**/contentModel.xml
 
-# Precompiled Headers
-*.gch
-*.pch
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dbnavigator.xml
 
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
+.idea/**/gradle.xml
+.idea/**/libraries
 
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
+cmake-build-*/
 
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
+.idea/**/mongoSettings.xml
 
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
+*.iws
 
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
+out/
+
+.idea_modules/
+
+atlassian-ide-plugin.xml
+
+.idea/replstate.xml
+
+.idea/sonarlint/
+
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
+
+.idea/httpRequests
+
+.idea/caches/build_file_checksums.ser
+
+.idea/*
+
+!.idea/codeStyles
+!.idea/runConfigurations
+
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
+
+*-prefix/
