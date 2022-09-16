@@ -35,10 +35,9 @@ static int compressMessage(uint64_t *state, const unsigned char *buf) {
     for (i = 0; i < 16; i++) {
         const unsigned char *a = buf + (8 * i);
 
-        w[i] = (((uint64_t) a[0] & 255) << 56) | (((uint64_t) a[1] & 255) << 48) | \
-         (((uint64_t) a[2] & 255) << 40) | (((uint64_t) a[3] & 255) << 32) | \
-         (((uint64_t) a[4] & 255) << 24) | (((uint64_t) a[5] & 255) << 16) | \
-         (((uint64_t) a[6] & 255) << 8) | ((uint64_t) a[7] & 255);
+        w[i] = (((uint64_t) a[0]) << 56) | (((uint64_t) a[1]) << 48) | (((uint64_t) a[2]) << 40) |
+               (((uint64_t) a[3]) << 32) | (((uint64_t) a[4]) << 24) | (((uint64_t) a[5]) << 16) |
+               (((uint64_t) a[6]) << 8) | ((uint64_t) a[7]);
     }
 
     for (i = 16; i < 80; i++) {
@@ -175,28 +174,28 @@ int sha512(const unsigned char *message, size_t messageLen, unsigned char *hash)
 
     unsigned char *a = buf + 120;
 
-    a[0] = (unsigned char) (length >> 56) & 255;
-    a[1] = (unsigned char) (length >> 48) & 255;
-    a[2] = (unsigned char) (length >> 40) & 255;
-    a[3] = (unsigned char) (length >> 32) & 255;
-    a[4] = (unsigned char) (length >> 24) & 255;
-    a[5] = (unsigned char) (length >> 16) & 255;
-    a[6] = (unsigned char) (length >> 8) & 255;
-    a[7] = (unsigned char) length & 255;
+    a[0] = (unsigned char) (length >> 56);
+    a[1] = (unsigned char) (length >> 48);
+    a[2] = (unsigned char) (length >> 40);
+    a[3] = (unsigned char) (length >> 32);
+    a[4] = (unsigned char) (length >> 24);
+    a[5] = (unsigned char) (length >> 16);
+    a[6] = (unsigned char) (length >> 8);
+    a[7] = (unsigned char) length;
 
     compressMessage(state, buf);
 
     for (i = 0; i < 8; i++) {
         unsigned char *b = hash + (8 * i);
 
-        b[0] = (unsigned char) (state[i] >> 56) & 255;
-        b[1] = (unsigned char) (state[i] >> 48) & 255;
-        b[2] = (unsigned char) (state[i] >> 40) & 255;
-        b[3] = (unsigned char) (state[i] >> 32) & 255;
-        b[4] = (unsigned char) (state[i] >> 24) & 255;
-        b[5] = (unsigned char) (state[i] >> 16) & 255;
-        b[6] = (unsigned char) (state[i] >> 8) & 255;
-        b[7] = (unsigned char) state[i] & 255;
+        b[0] = (unsigned char) (state[i] >> 56);
+        b[1] = (unsigned char) (state[i] >> 48);
+        b[2] = (unsigned char) (state[i] >> 40);
+        b[3] = (unsigned char) (state[i] >> 32);
+        b[4] = (unsigned char) (state[i] >> 24);
+        b[5] = (unsigned char) (state[i] >> 16);
+        b[6] = (unsigned char) (state[i] >> 8);
+        b[7] = (unsigned char) state[i];
     }
 
     return 0;
