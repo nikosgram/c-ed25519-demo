@@ -24,7 +24,7 @@ static const uint64_t K[80] = {0x428a2f98d728ae22, 0x7137449123ef65cd, 0xb5c0fbc
                                0x28db77f523047d84, 0x32caab7b40c72493, 0x3c9ebe0a15c9bebc, 0x431d67c49c100d4c,
                                0x4cc5d4becb3e42b6, 0x597f299cfc657e2a, 0x5fcb6fab3ad6faec, 0x6c44198c4a475817};
 
-static int compressSHA512Buf(uint64_t *state, const unsigned char *buf) {
+static void compressSHA512Buf(uint64_t *state, const unsigned char *buf) {
     uint64_t s[8], w[80], t0;
     int i;
 
@@ -101,8 +101,6 @@ static int compressSHA512Buf(uint64_t *state, const unsigned char *buf) {
     for (i = 0; i < 8; i++) {
         state[i] = state[i] + s[i];
     }
-
-    return 0;
 }
 
 int sha512(const unsigned char *message, size_t messageLen, unsigned char *hash) {
@@ -120,9 +118,7 @@ int sha512(const unsigned char *message, size_t messageLen, unsigned char *hash)
 
     while (messageLen > 0) {
         if (currentLen == 0 && messageLen >= 128) {
-            if ((result = compressSHA512Buf(state, message)) != 0) {
-                return result;
-            }
+            compressSHA512Buf(state, message);
 
             length += 128 * 8;
             message += 128;
@@ -141,9 +137,7 @@ int sha512(const unsigned char *message, size_t messageLen, unsigned char *hash)
             messageLen -= n;
 
             if (currentLen == 128) {
-                if ((result = compressSHA512Buf(state, buf)) != 0) {
-                    return result;
-                }
+                compressSHA512Buf(state, buf);
 
                 length += 8 * 128;
                 currentLen = 0;
@@ -165,6 +159,7 @@ int sha512(const unsigned char *message, size_t messageLen, unsigned char *hash)
         }
 
         compressSHA512Buf(state, buf);
+
         currentLen = 0;
     }
 
